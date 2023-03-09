@@ -2,6 +2,8 @@ service: sls-template
 
 frameworkVersion: "3"
 
+useDotenv: true
+
 package:
   individually: true
   exclude:
@@ -38,6 +40,11 @@ provider:
   logRetentionInDays: 7
   environment:
     APP_ENV: ${self:provider.stage}
+    MYSQL_HOST: ${env:MYSQL_HOST_${self:provider.stage}}
+    MYSQL_PORT: ${env:MYSQL_PORT_${self:provider.stage}}
+    MYSQL_USER: ${env:MYSQL_USER_${self:provider.stage}}
+    MYSQL_PASS: ${env:MYSQL_PASS_${self:provider.stage}}
+    MYSQL_DBNAME: ${env:MYSQL_DBNAME_${self:provider.stage}}
 
 functions:
   hello:

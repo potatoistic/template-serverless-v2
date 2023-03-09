@@ -2,6 +2,7 @@ import { type APIGatewayProxyHandler } from 'aws-lambda'
 import { db } from '../../config/database'
 import { z } from 'zod'
 import { Users } from '../../schema/users'
+import { ENV } from '../../config/env'
 
 export const createUser: APIGatewayProxyHandler = async (event) => {
   try {
@@ -56,6 +57,6 @@ export const getUsers: APIGatewayProxyHandler = async (event) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify(data)
+    body: JSON.stringify({ data, ENV })
   }
 }
