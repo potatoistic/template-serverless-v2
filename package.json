@@ -10,7 +10,8 @@
     "watch": "concurrently \"tsc --watch\" \"sls offline start --reloadHandler\"",
     "clean": "rimraf .webpack .dist .serverless",
     "clean:deep": "rimraf node_modules .webpack .serverless .dist",
-    "migrate": "drizzle-kit generate:mysql"
+    "migrate": "drizzle-kit generate:mysql",
+    "lint": "eslint --fix --color --max-warnings 3 --cache --cache-location .eslintcache ."
   },
   "keywords": [],
   "author": "",
@@ -18,8 +19,14 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.111",
     "@types/node": "^18.14.6",
+    "@typescript-eslint/eslint-plugin": "^5.54.1",
     "concurrently": "^7.6.0",
     "drizzle-kit": "^0.17.0",
+    "eslint": "^8.35.0",
+    "eslint-config-standard-with-typescript": "^34.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
     "rimraf": "^4.4.0",
     "serverless": "^3.28.1",
     "serverless-bundle": "^6.0.0",

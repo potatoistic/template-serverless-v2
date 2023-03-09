@@ -1,7 +1,7 @@
-import { APIGatewayProxyHandler } from "aws-lambda";
-import { db } from "../../config/database";
-import { z } from "zod";
-import { Users } from "../../schema/users";
+import { type APIGatewayProxyHandler } from 'aws-lambda'
+import { db } from '../../config/database'
+import { z } from 'zod'
+import { Users } from '../../schema/users'
 
 export const createUser: APIGatewayProxyHandler = async (event) => {
   try {
@@ -9,24 +9,24 @@ export const createUser: APIGatewayProxyHandler = async (event) => {
       .object({
         username: z.string(),
         email: z.string().email(),
-        password: z.string(),
+        password: z.string()
       })
-      .parse(JSON.parse(event.body || "{}"));
+      .parse(JSON.parse(event.body ?? '{}'))
 
     const newUser = await db.insert(Users).values({
       email: data.email,
       username: data.username,
-      password: data.password,
-    });
-    console.log("🚀 ~ file: controller.ts:21 ~ newUser ~ newUser:", newUser);
+      password: data.password
+    })
+    console.log('🚀 ~ file: controller.ts:21 ~ newUser ~ newUser:', newUser)
 
     return {
       statusCode: 201,
       body: JSON.stringify({
         userCreated: true,
-        newUser,
-      }),
-    };
+        newUser
+      })
+    }
   } catch (e) {
     if (e instanceof z.ZodError) {
       return {
@@ -34,28 +34,28 @@ export const createUser: APIGatewayProxyHandler = async (event) => {
         body: JSON.stringify({
           userCreated: false,
           error: e.errors
-        }),
-      };
+        })
+      }
     }
     return {
       statusCode: 500,
       body: JSON.stringify({
         userCreated: false,
-        error: "Something went wrong",
-      }),
-    };
+        error: 'Something went wrong'
+      })
+    }
   }
-};
+}
 
-export const getUsers: APIGatewayProxyHandler = async () => {
+export const getUsers: APIGatewayProxyHandler = async (event) => {
   const data = await db
     .select({
-      name: Users.username,
+      name: Users.username
     })
-    .from(Users);
+    .from(Users)
 
   return {
     statusCode: 200,
-    body: JSON.stringify(data),
-  };
-};
+    body: JSON.stringify(data)
+  }
+}
