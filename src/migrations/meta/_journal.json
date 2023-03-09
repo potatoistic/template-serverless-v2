@@ -1,0 +1,12 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1678384740448,
+      "tag": "0000_previous_the_fury"
+    }
+  ]
+}

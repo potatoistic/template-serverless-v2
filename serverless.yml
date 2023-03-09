@@ -1,0 +1,54 @@
+service: sls-template
+
+frameworkVersion: "3"
+
+package:
+  individually: true
+  exclude:
+    "src/**"
+
+plugins:
+  - serverless-prune-plugin
+  - serverless-bundle
+  - serverless-offline
+
+custom:
+  build: .dist
+  prefix_url: /api/v1
+  prune:
+    number: 3
+    automatic: true
+  serverless-offline:
+    httpPort: 4000
+    lambdaPort: 4002
+  bundle:
+    sourcemaps: true
+    caching: true
+    esbuild: true
+    excludeFiles: "**/*.ts"
+    packager: npm
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: ap-south-1
+  memorySize: 128
+  timeout: 10
+  logRetentionInDays: 7
+  environment:
+    APP_ENV: ${self:provider.stage}
+
+functions:
+  hello:
+    handler: ${self:custom.build}/index.createUser
+    events:
+      - http:
+          path: ${self:custom.prefix_url}/users
+          method: POST
+  getUser:
+    handler: ${self:custom.build}/index.getUsers
+    events:
+      - http:
+          path: ${self:custom.prefix_url}/users
+          method: GET
