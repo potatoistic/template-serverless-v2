@@ -47,12 +47,6 @@ provider:
     MYSQL_DBNAME: ${env:MYSQL_DBNAME_${self:provider.stage}}
 
 functions:
-  hello:
-    handler: ${self:custom.build}/index.createUser
-    events:
-      - http:
-          path: ${self:custom.prefix_url}/users
-          method: POST
   getUser:
     handler: ${self:custom.build}/index.getUsers
     events:
