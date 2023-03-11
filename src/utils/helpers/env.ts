@@ -1,12 +1,16 @@
 import { z } from 'zod'
 
+const preProcessToNum = z.preprocess((val) => Number(val), z.number())
+
 const schema = z.object({
   app_env: z.enum(['dev', 'stage', 'uat', 'prod']).default('dev'),
   mysql_host: z.string().default('localhost'),
-  mysql_port: z.preprocess((val) => Number(val), z.number()).default(3306),
+  mysql_port: preProcessToNum.default(3306),
   mysql_user: z.string(),
   mysql_pass: z.string(),
-  mysql_database: z.string()
+  mysql_database: z.string(),
+  mysql_pool_min: preProcessToNum.default(5),
+  mysql_pool_max: preProcessToNum.default(10)
 })
 
 export type ProcessEnv = Record<keyof z.infer<typeof schema>, string | undefined>

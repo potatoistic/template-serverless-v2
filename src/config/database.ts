@@ -13,8 +13,8 @@ const config: Knex.Config = {
     database: ENV.mysql_database
   },
   pool: {
-    min: 5,
-    max: 50
+    min: ENV.mysql_pool_min,
+    max: ENV.mysql_pool_min
   }
 }
 
